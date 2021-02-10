@@ -4,8 +4,18 @@
 #------------------------------------------------------------------------------------------
 def main():
     
-    endereco    = "balance-scale.data"   
+    endereco     = "balance-scale.data"  
 
+    linhas_base  =  buscar_base(endereço = endereco)
+    vetor_linha  = separar_dados(linhas=linhas_base)
+    vetor_classe = separa_classes(vetor_linha)
+
+    vetor_dict = []
+    for classe in vetor_classe:
+        dict_class = separa_classes(vetor_classe)
+        vetor_dict.append(dict_class)
+
+    
 #------------------------------------------------------------------------------------------
 #   Busca da base
 #------------------------------------------------------------------------------------------
@@ -19,7 +29,7 @@ def buscar_base(endereco):
 #------------------------------------------------------------------------------------------
 #   Trabalhando com strings vindas do texto
 #------------------------------------------------------------------------------------------
-def separar_dados(linhas):
+def separar_dados(linhas_base):
     dados = []
 
     for linha in linhas:
@@ -37,7 +47,7 @@ def separar_dados(linhas):
 #------------------------------------------------------------------------------------------
 #   Separando classes R - B - L da base
 #------------------------------------------------------------------------------------------
-def separa_classes(dados):
+def separa_classes(vetor_linha):
     classe_r = []
     classe_b = []
     classe_l = []
