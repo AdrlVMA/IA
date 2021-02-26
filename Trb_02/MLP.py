@@ -40,10 +40,7 @@ class MLP(rna):
             self.wo.append(aux)
 
 
-    def calcular(self, x_input, y):
-
-        x            = x_input.copy()
-        x.append(1)
+    def calcular(self, x, y):
 
         # Cálculo de valores de saída intermediários
         H            = []
@@ -69,9 +66,9 @@ class MLP(rna):
 
             out.append(o)
         
-        return out                                                      # Retornar os valores obtidos
+        return out, H                                                      # Retornar os valores obtidos
 
-    def recalcular_deltas(self, out, y):
+    def recalcular_deltas(self, x, out, y, H):
 
         # -------------------------------------------------
         #  Delta Saída e Back Propagation
@@ -105,11 +102,15 @@ class MLP(rna):
 
 
     def treinar(self, x_input, y):
+        x            = x_input.copy()
+        x.append(1)
         
-        out = self.calcular(x_input=x_input, y=y)
-        self.recalcular_deltas(out=out, y=y)
+        out, H = self.calcular(x=x, y=y)
+        self.recalcular_deltas(x=x, out=out, y=y, H=H)
 
         return out
 
-        
+    def testar(self, x_input, y):
+        out, H = self.calcular(x_input=x_input, y=y)
 
+        return out
