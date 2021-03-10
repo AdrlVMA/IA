@@ -14,8 +14,11 @@ def main():
     linhas_base  =  buscar_base(endereco = endereco)
     vetor_linha  = separar_dados(linhas_base=linhas_base)
 
+    extrems_linhas(vetor_linha)
+
     vetor_classe = separa_classes(vetor_linha=vetor_linha)
 
+    # print(vetor_classe)
 
     base_dict    = []
     for classe in vetor_classe:
@@ -29,6 +32,7 @@ def main():
         treinar_container.extend(dic['treino'])
         testar_container.extend(dic['teste'])
 
+
     base =  {
 
         'teste': testar_container,
@@ -40,7 +44,7 @@ def main():
 
     n_x = len(vetor_classe[0][0][0])
     n_y = len(vetor_classe[0][0][1])
-    qtd_hidden = 2
+    qtd_hidden = 10
     n_epocas   = 30000
 
     run_dict = treinar.run(
@@ -69,7 +73,6 @@ def main():
         
     )
 
-
 def plot_classificacao(cl_teste, cl_treino, n_epocas):
     
     epocas = arange(start=1, stop=n_epocas+1, step=1)
@@ -89,7 +92,6 @@ def plot_classificacao(cl_teste, cl_treino, n_epocas):
 
     legend()
 
-    #show()
     savefig(fname='cl.png')
 
 def plot_aproximacao(ap_teste, ap_treino, n_epocas):
@@ -110,7 +112,6 @@ def plot_aproximacao(ap_teste, ap_treino, n_epocas):
 
     legend()
 
-    #show()
     savefig(fname='ap.png')
 
     
@@ -142,10 +143,28 @@ def separar_dados(linhas_base):
 
     return dados
 
+maxi = -1000
+mini = 1000
+def extrems_linhas(vetor_linha):
+    global maxi, mini
+
+    for linha in vetor_linha:
+
+        for i in range(2,len(linha)):
+            aux = float(linha[i])
+
+            if aux > maxi:
+                maxi = aux
+
+            if aux < mini:
+                mini = aux
+
 #------------------------------------------------------------------------------------------
-#   Separando classes R - B - L da base
+#   Separando classes M - B da base
 #------------------------------------------------------------------------------------------
+
 def separa_classes(vetor_linha):
+
     classe_m = []
     classe_b = []
 
@@ -155,7 +174,8 @@ def separa_classes(vetor_linha):
 
         vet = []
         for i in range(2,len(linha)):
-            vet.append(float(linha[i]))
+            #vet.append(float(linha[i]))
+            vet.append((float(linha[i])- mini) / (maxi - mini))
 
         if classe == 'M':
             classe_m.append([vet,[0.05,0.95]])
@@ -173,7 +193,6 @@ def separa_teste(base):
     teste = []
 
     tamanho = len(base)
-    #print(tamanho)
 
     q = int((tamanho/100)*20 + 1)
 
@@ -188,10 +207,8 @@ def separa_teste(base):
 
     }
 
-    return sep_base
-
+    return sep_base    
 
 if __name__ == '__main__':
     main();
 
-    #print(separa_classes([[1110524,10,5,5,6,8,8,7,1,1,4]]))

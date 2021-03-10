@@ -8,8 +8,6 @@ class MLP_Treinar(RNA):
         n_x = len(base[1][0])
         n_y = len(base[1][1])
 
-        #print([n_x, n_y])
-
         rna = MLP(qtd_input=n_x, qtd_hidden = qtd_hidden, qtd_output=n_y)
 
         for e in range(0,300000):
@@ -129,16 +127,16 @@ class MLP_Treinar(RNA):
             vet_cla = []
             for o in out:
                 if o>=0.5:
-                    vet_cla.append(1)
+                    vet_cla.append(0.95)
                 else:
-                    vet_cla.append(0)
+                    vet_cla.append(0.05)
 
             aux = 0
             for v in zip(vet_cla,y):
                 aux +=abs(v[1]-v[0])
 
             ecl = 0
-            if aux>0:
+            if aux>0.05:
                 ecl = 1
 
             erro_classificacao +=  ecl
@@ -158,7 +156,7 @@ class MLP_Treinar(RNA):
 
         #random.shuffle(base_teste)
 
-        for a in range(0, len(base_treino)):
+        for a in range(0, len(base_teste)):
         
             amostra = base_teste[a]
 
@@ -183,16 +181,16 @@ class MLP_Treinar(RNA):
             vet_cla = []
             for o in out:
                 if o>=0.5:
-                    vet_cla.append(1)
+                    vet_cla.append(0.95)
                 else:
-                    vet_cla.append(0)
+                    vet_cla.append(0.05)
 
             aux = 0
             for v in zip(vet_cla,y):
                 aux +=abs(v[1]-v[0])
 
             ecl = 0
-            if aux>0:
+            if aux>0.05:
                 ecl = 1
 
             erro_classificacao +=  ecl

@@ -35,22 +35,22 @@ class MLP(rna):
             
             aux = []
             for o in range(self.qtd_hidden+1):                          # Linhas se referindo às entradas
-                aux.append(0.6 * random.random() - 0.3)
+                aux.append(0.006 * random.random() - 0.3)
                 
             self.wo.append(aux)
 
 
     def calcular(self, x, y):
-
+        
         # Cálculo de valores de saída intermediários
         H            = []
         for w in self.wh:                                               # Para cada vetor de pesos relacionado a 1 neuronio
-            aux = 0
+            aux_0 = 0
             for i in range(len(x)): 
-                aux += x[i]*w[i]                                        # Multiplique o elemento por seu peso correspondente
-            
-            o = 1/(1+m.exp(-1*aux))                                     # Aplique a função de aplicação a um dado neurônio 
-
+                aux_0 += x[i]*w[i]                                        # Multiplique o elemento por seu peso correspondente
+        
+            o = 1/(1+m.exp(-1*aux_0))                                     # Aplique a função de aplicação a um dado neurônio 
+        
             H.append(o)
             
         H.append(1)                                                     # Bias da Camada intermediária
@@ -75,7 +75,10 @@ class MLP(rna):
         # -------------------------------------------------
         DO           = []                                               # Delta de Saída
         for oy in zip(out,y):
-            DO.append(oy[0] * (1 - oy[0]) * (oy[1] - oy[0]))
+            if (oy[1] - oy[0])>0:
+                DO.append(oy[0] * (1 - oy[0]) * ((oy[1] - oy[0])**2))
+            else:
+                DO.append(oy[0] * (1 - oy[0]) * (((oy[1] - oy[0])**2)*(-1)))
 
         # -------------------------------------------------
         #  Delta intermediário e Back Propagation
@@ -111,6 +114,16 @@ class MLP(rna):
         return out
 
     def testar(self, x_input, y):
-        out, H = self.calcular(x_input=x_input, y=y)
+        out, H = self.calcular(x=x_input, y=y)
 
         return out
+
+'''
+# Teste 01:
+x = [21.71, 17.25, 140.9, 1546.0, 0.09384, 0.08562, 0.1168, 0.08465, 0.1717, 0.05054, 1.207, 1.051, 7.733, 224.1, 0.005568, 0.01112, 0.02096, 0.01197, 0.01263, 
+     0.001803, 30.75, 26.44, 199.5, 3143.0, 0.1363, 0.1628, 0.2861, 0.182, 0.251, 0.06494, 1]
+y = [0.05, 0.95]
+
+rna = MLP(qtd_input=30, qtd_hidden = 10, qtd_output=2)
+rna.testar(x,y)
+'''
