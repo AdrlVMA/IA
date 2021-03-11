@@ -12,7 +12,7 @@ class MLP(rna):
         self.qtd_input  = qtd_input
 
         if ni == None:
-            self.ni = 0.001;
+            self.ni = 0.0001
         else:
             self.ni = ni
         
