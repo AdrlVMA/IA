@@ -64,6 +64,8 @@ class MLP_Treinar(RNA):
         
         rna = MLP(qtd_input=n_x, qtd_hidden = qtd_hidden, qtd_output=n_y)
 
+        arq = open("log.txt", 'w')
+
         for e in range(0,n_epocas):
             
             treino_dict = self.treinar(base['treino'], rna)
@@ -81,10 +83,18 @@ class MLP_Treinar(RNA):
             ap_vet_teste.append(e_ap_teste)
 
             print('Época: {}'.format(e+1), end=' - ')
-            print('Treino ap: {}'.format(e_ap_treino), end=' - ')
+            print('Treino ap: {}'.format(round(e_ap_treino, 6)), end=' - ')
             print('Treino cl: {}'.format(e_cl_treino), end=' - ')
-            print('Teste ap: {}'.format(e_ap_teste), end=' - ')
+            print('Teste ap: {}'.format(round(e_ap_teste, 6)), end=' - ')
             print('Teste cl: {}'.format(e_cl_teste))
+
+            arq.write('Época: {} - '.format(e+1))
+            arq.write('Treino ap: {} - '.format(e_ap_treino))
+            arq.write('Treino cl: {} - '.format(e_cl_treino))
+            arq.write('Teste ap: {} - '.format(e_ap_teste))
+            arq.write('Teste cl: {} \n'.format(e_cl_teste))
+
+        arq.close()
 
         run_dict = {
 
