@@ -90,7 +90,7 @@ def plot_classificacao(cl_teste, cl_treino, n_epocas):
     legend()
 
     #show()
-    savefig(fname='cl.png')
+    savefig(fname='cl_4.png')
 
 def plot_aproximacao(ap_teste, ap_treino, n_epocas):
     epocas = arange(start=1, stop=n_epocas+1, step=1)
@@ -111,7 +111,7 @@ def plot_aproximacao(ap_teste, ap_treino, n_epocas):
     legend()
 
     #show()
-    savefig(fname='ap.png')
+    savefig(fname='ap_4.png')
 
     
 #------------------------------------------------------------------------------------------

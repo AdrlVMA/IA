@@ -109,10 +109,11 @@ class MLP_Treinar(RNA):
 
     
     def treinar(self, base_treino, rna):
-        erroEpoca = 0
+        erro_epoca = 0
         erro_classificacao = 0
-        
-        random.shuffle(base_treino)
+
+        if random.random() > 0.0:
+            random.shuffle(base_treino)
 
         for a in range(0, len(base_treino)):
             
@@ -126,34 +127,34 @@ class MLP_Treinar(RNA):
 
             # Calculo do erro simples
             err = []
-            for er in zip(out,y):
+            for er in zip(out, y):
                 err.append(abs(er[0]-er[1]))
 
             # Erro de aproximação
             for er in err:
-                erroEpoca += er
+                erro_epoca += er
             
             # Erro de Classificação 01
             vet_cla = []
             for o in out:
-                if o>=0.5:
+                if o >= 0.5:
                     vet_cla.append(0.95)
                 else:
                     vet_cla.append(0.05)
 
             aux = 0
-            for v in zip(vet_cla,y):
-                aux +=abs(v[1]-v[0])
+            for v in zip(vet_cla, y):
+                aux += abs(v[1]-v[0])
 
             ecl = 0
-            if aux>0.05:
+            if aux > 0.05:
                 ecl = 1
 
-            erro_classificacao +=  ecl
+            erro_classificacao += ecl
 
         treino_dict = {
             
-            'eEpoca': erroEpoca,
+            'eEpoca': erro_epoca,
             'eClass': erro_classificacao
 
         }
@@ -200,10 +201,10 @@ class MLP_Treinar(RNA):
                 aux +=abs(v[1]-v[0])
 
             ecl = 0
-            if aux>0.05:
+            if aux > 0.05:
                 ecl = 1
 
-            erro_classificacao +=  ecl
+            erro_classificacao += ecl
 
         teste_dict = {
             
